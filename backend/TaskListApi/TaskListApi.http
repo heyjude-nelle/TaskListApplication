@@ -34,3 +34,58 @@ Authorization: Bearer {{login.response.body.$.token}}
 GET {{TaskListApi_HostAddress}}/api/auth/profile
 
 ###
+
+### Create a task
+# @name createTask
+POST {{TaskListApi_HostAddress}}/api/task
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.token}}
+
+{
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread",
+  "dueDate": "2026-07-25T00:00:00Z",
+  "priority": "Medium",
+  "category": "Personal"
+}
+
+###
+
+### Get all my tasks
+GET {{TaskListApi_HostAddress}}/api/task
+Authorization: Bearer {{login.response.body.$.token}}
+
+###
+
+### Get one task by id
+GET {{TaskListApi_HostAddress}}/api/task/{{createTask.response.body.$.id}}
+Authorization: Bearer {{login.response.body.$.token}}
+
+###
+
+### Update the task
+PUT {{TaskListApi_HostAddress}}/api/task/{{createTask.response.body.$.id}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.token}}
+
+{
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread, butter",
+  "dueDate": "2026-07-25T00:00:00Z",
+  "priority": "High",
+  "category": "Personal",
+  "status": "InProgress"
+}
+
+###
+
+### Delete the task
+DELETE {{TaskListApi_HostAddress}}/api/task/{{createTask.response.body.$.id}}
+Authorization: Bearer {{login.response.body.$.token}}
+
+###
+
+### Get all tasks with no token (should 401)
+GET {{TaskListApi_HostAddress}}/api/task
+
+###
