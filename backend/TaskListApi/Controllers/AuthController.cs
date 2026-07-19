@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using TaskListApi.Data.Repositories;
 using TaskListApi.Models;
 using TaskListApi.Services;
 using TaskListApi.DTOs;
+using System.Security.Claims;
 
 
 namespace TaskListApi.Controllers;
@@ -69,6 +71,16 @@ public class AuthController : ControllerBase
         var token = _tokenService.GenerateToken(user);
 
         return Ok(new AuthResponse(token, user.Username, user.Email));
+    }
+
+    [Authorize]
+    [HttpGet("profile")]
+    public ActionResult UserProfile()
+    {
+        var username = User.FindFirstValue("unique_name");
+        var email = User.FindFirstValue("email");
+
+        return Ok(new { username, email });
     }
 
 }
