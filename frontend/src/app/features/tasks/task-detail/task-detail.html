@@ -1,0 +1,47 @@
+<div class="page">
+  <a routerLink="/tasks" class="muted">&larr; Back to tasks</a>
+
+  @if (errorMessage()) {
+    <div class="form-error" style="margin-top: 1rem;">{{ errorMessage() }}</div>
+  }
+
+  @if (loading()) {
+    <p class="muted">Loading...</p>
+  } @else if (task(); as t) {
+    <div class="card" style="margin-top: 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <h1 style="margin-top: 0;">{{ t.title }}</h1>
+        <div style="display: flex; gap: 0.5rem;">
+          <a class="btn btn-secondary" [routerLink]="['/tasks', t.id, 'edit']">Edit</a>
+          <button class="btn btn-danger" (click)="deleteTask()">Delete</button>
+        </div>
+      </div>
+
+      @if (t.description) {
+        <p>{{ t.description }}</p>
+      }
+
+      <dl style="display: grid; grid-template-columns: 140px 1fr; row-gap: 0.5rem;">
+        <dt class="muted">Status</dt>
+        <dd>{{ t.status }}</dd>
+
+        <dt class="muted">Priority</dt>
+        <dd>{{ t.priority }}</dd>
+
+        <dt class="muted">Category</dt>
+        <dd>{{ t.category || '—' }}</dd>
+
+        <dt class="muted">Due date</dt>
+        <dd>{{ t.dueDate ? (t.dueDate | date: 'mediumDate') : '—' }}</dd>
+
+        <dt class="muted">Created</dt>
+        <dd>{{ t.createdAt | date: 'medium' }}</dd>
+
+        @if (t.updatedAt) {
+          <dt class="muted">Last updated</dt>
+          <dd>{{ t.updatedAt | date: 'medium' }}</dd>
+        }
+      </dl>
+    </div>
+  }
+</div>
