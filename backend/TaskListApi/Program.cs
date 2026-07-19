@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using TaskListApi.Data.Repositories;
+using Microsoft.AspNetCore.Identity;
 using TaskListApi.Services;
 using TaskListApi.Data;
+using TaskListApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 builder.Services.AddAuthorization();
 
