@@ -13,7 +13,9 @@ public class TaskRepository : ITaskRepository
     }
 
     public Task<List<TaskItem>> GetAllByUserAsync(Guid userId) =>
-        _context.Tasks.Where(t => t.UserId == userId).ToListAsync();
+        _context.Tasks
+        .FromSqlInterpolated($"SELECT * FROM get_tasks_by_user({userId})")
+        .ToListAsync();
 
     public Task<TaskItem?> GetByIdAsync(Guid id, Guid userId) =>
         _context.Tasks.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
