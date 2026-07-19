@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using TaskListApi.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using TaskListApi.Services;
 using TaskListApi.Data;
 using TaskListApi.Models;
+using TaskListApi.Data.Repositories;
+using TaskListApi.ErrorHandling;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,9 +54,15 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+builder.Services.AddProblemDetails();
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
