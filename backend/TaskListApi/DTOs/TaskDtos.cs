@@ -1,21 +1,22 @@
 using TaskListApi.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace TaskListApi.DTOs;
 
 public record CreateTaskRequest(
-    string Title,
-    string? Description,
+    [Required, MaxLength(200)] string Title,
+    [MaxLength(2000)] string? Description,
     DateTime? DueDate,
     TaskPriority Priority,
-    string? Category
+    [MaxLength(100)] string? Category
 );
 
 public record UpdateTaskRequest(
-    string Title,
-    string? Description,
+    [Required, MaxLength(200)] string Title,
+    [MaxLength(2000)] string? Description,
     DateTime? DueDate,
     TaskPriority Priority,
-    string? Category,
+    [MaxLength(100)] string? Category,
     TaskItemStatus Status
 );
 
