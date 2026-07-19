@@ -60,9 +60,23 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddAuthorization();
 
+const string AngularDevClient = "AngularDevClient";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(AngularDevClient, policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.UseExceptionHandler();
+
+app.UseCors(AngularDevClient);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

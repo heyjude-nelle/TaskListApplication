@@ -1,0 +1,43 @@
+<div class="page">
+  <div class="card" style="max-width: 380px; margin: 3rem auto;">
+    <h1>Register</h1>
+
+    @if (errorMessage()) {
+      <div class="form-error">{{ errorMessage() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-field">
+        <label for="username">Username</label>
+        <input id="username" type="text" formControlName="username" autocomplete="username" />
+        @if (form.controls.username.invalid && form.controls.username.touched) {
+          <span class="field-error">Username must be 3-50 characters.</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" autocomplete="email" />
+        @if (form.controls.email.invalid && form.controls.email.touched) {
+          <span class="field-error">Enter a valid email address.</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" autocomplete="new-password" />
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+          <span class="field-error">Password must be at least 8 characters.</span>
+        }
+      </div>
+
+      <button class="btn btn-primary" type="submit" [disabled]="submitting()" style="width: 100%;">
+        {{ submitting() ? 'Registering...' : 'Register' }}
+      </button>
+    </form>
+
+    <p class="muted" style="margin-top: 1rem;">
+      Already have an account? <a routerLink="/login">Log in</a>
+    </p>
+  </div>
+</div>
