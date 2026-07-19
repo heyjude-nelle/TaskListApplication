@@ -56,8 +56,6 @@ builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddProblemDetails();
-
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
