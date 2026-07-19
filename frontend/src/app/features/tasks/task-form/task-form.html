@@ -1,0 +1,67 @@
+<div class="page">
+  <a routerLink="/tasks" class="muted">&larr; Back to tasks</a>
+
+  <div class="card" style="margin-top: 1rem;">
+    <h1>{{ isEditMode() ? 'Edit Task' : 'New Task' }}</h1>
+
+    @if (errorMessage()) {
+      <div class="form-error">{{ errorMessage() }}</div>
+    }
+
+    @if (loading()) {
+      <p class="muted">Loading...</p>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-field">
+          <label for="title">Title</label>
+          <input id="title" type="text" formControlName="title" />
+          @if (form.controls.title.invalid && form.controls.title.touched) {
+            <span class="field-error">Title is required (max 200 characters).</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="description">Description</label>
+          <textarea id="description" rows="3" formControlName="description"></textarea>
+          @if (form.controls.description.invalid && form.controls.description.touched) {
+            <span class="field-error">Description must be 2000 characters or fewer.</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="dueDate">Due date</label>
+          <input id="dueDate" type="date" formControlName="dueDate" />
+        </div>
+
+        <div class="form-field">
+          <label for="priority">Priority</label>
+          <select id="priority" formControlName="priority">
+            @for (p of priorities; track p) {
+              <option [value]="p">{{ p }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="category">Category</label>
+          <input id="category" type="text" formControlName="category" placeholder="e.g. Work, Personal" />
+        </div>
+
+        @if (isEditMode()) {
+          <div class="form-field">
+            <label for="status">Status</label>
+            <select id="status" formControlName="status">
+              @for (s of statuses; track s) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+        }
+
+        <button class="btn btn-primary" type="submit" [disabled]="submitting()">
+          {{ submitting() ? 'Saving...' : (isEditMode() ? 'Save changes' : 'Create task') }}
+        </button>
+      </form>
+    }
+  </div>
+</div>

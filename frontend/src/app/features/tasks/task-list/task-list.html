@@ -1,0 +1,47 @@
+<div class="topbar">
+  <span class="brand">Task List</span>
+  <div>
+    <span class="muted" style="margin-right: 1rem;">{{ authService.currentUsername() }}</span>
+    <button class="btn btn-secondary" (click)="logout()">Log out</button>
+  </div>
+</div>
+
+<div class="page">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <h1 style="margin: 0;">My Tasks</h1>
+    <a class="btn btn-primary" routerLink="/tasks/new">+ New Task</a>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="form-error">{{ errorMessage() }}</div>
+  }
+
+  @if (loading()) {
+    <p class="muted">Loading tasks...</p>
+  } @else if (tasks().length === 0) {
+    <div class="card">
+      <p class="muted" style="margin: 0;">You don't have any tasks yet. Create your first one.</p>
+    </div>
+  } @else {
+    <div class="card" style="padding: 0;">
+      @for (task of tasks(); track task.id) {
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #e2e5e9;">
+          <div>
+            <a [routerLink]="['/tasks', task.id]" style="font-weight: 600; text-decoration: none; color: #1f2933;">
+              {{ task.title }}
+            </a>
+            <div class="muted">
+              {{ task.priority }} priority &middot; {{ task.status }}
+              @if (task.category) { &middot; {{ task.category }} }
+              @if (task.dueDate) { &middot; Due {{ task.dueDate | date: 'mediumDate' }} }
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <a class="btn btn-secondary" [routerLink]="['/tasks', task.id, 'edit']">Edit</a>
+            <button class="btn btn-danger" (click)="deleteTask(task)">Delete</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
