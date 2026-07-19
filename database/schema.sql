@@ -40,5 +40,19 @@ CREATE UNIQUE INDEX "IX_Users_Username" ON "Users" ("Username");
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20260718140631_InitialCreate', '10.0.10');
 
+CREATE OR REPLACE FUNCTION get_tasks_by_user(p_user_id uuid)
+RETURNS SETOF "Tasks"
+LANGUAGE sql
+AS $$
+    SELECT * FROM "Tasks" WHERE "UserId" = p_user_id ORDER BY "CreatedAt" DESC;
+$$;
+
+CREATE OR REPLACE FUNCTION get_task_by_id(p_id uuid, p_user_id uuid)
+RETURNS SETOF "Tasks"
+LANGUAGE sql
+AS $$
+    SELECT * FROM "Tasks" WHERE "Id" = p_id AND "UserId" = p_user_id;
+$$;
+
 COMMIT;
 
