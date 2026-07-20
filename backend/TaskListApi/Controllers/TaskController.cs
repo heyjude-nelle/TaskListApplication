@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using TaskListApi.Data.Repositories;
 using System.Security.Claims;
 using TaskListApi.DTOs;
 using TaskListApi.Models;
+using TaskListApi.Services;
 
 namespace TaskListApi.Controllers;
 
@@ -13,11 +13,11 @@ namespace TaskListApi.Controllers;
 [Route("api/[controller]")]
 public class TaskController : ControllerBase
 {
-    private readonly ITaskRepository _taskRepository;
+    private readonly ITaskService _taskService;
 
-    public TaskController(ITaskRepository taskRepository)
+    public TaskController(ITaskService taskService)
     {
-        _taskRepository = taskRepository;
+        _taskService = taskService;
     }
 
     private Guid GetCurrentUserId()
@@ -29,14 +29,14 @@ public class TaskController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<TaskResponse>>> GetAll()
     {
-        var tasks = await _taskRepository.GetAllByUserAsync(GetCurrentUserId());
+        var tasks = await _taskService.GetAllForUserAsync(GetCurrentUserId());
         return Ok(tasks.Select(ToResponse));
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<TaskResponse>> GetById(Guid id)
     {
-        var task = await _taskRepository.GetByIdAsync(id, GetCurrentUserId());
+        var task = await _taskService.GetByIdForUserAsync(id, GetCurrentUserId());
         if (task is null) return NotFound();
         return Ok(ToResponse(task));
     }
@@ -44,47 +44,23 @@ public class TaskController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<TaskResponse>> Create(CreateTaskRequest request)
     {
-        var task = new TaskItem
-        {
-            UserId = GetCurrentUserId(),
-            Title = request.Title,
-            Description = request.Description,
-            DueDate = request.DueDate,
-            Priority = request.Priority,
-            Category = request.Category
-        };
-
-        await _taskRepository.AddAsync(task);
-
+        var task = await _taskService.CreateAsync(GetCurrentUserId(), request);
         return CreatedAtAction(nameof(GetById), new { id = task.Id }, ToResponse(task));
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult<TaskResponse>> Update(Guid id, UpdateTaskRequest request)
     {
-        var task = await _taskRepository.GetByIdAsync(id, GetCurrentUserId());
+        var task = await _taskService.UpdateAsync(id, GetCurrentUserId(), request);
         if (task is null) return NotFound();
-
-        task.Title = request.Title;
-        task.Description = request.Description;
-        task.DueDate = request.DueDate;
-        task.Priority = request.Priority;
-        task.Category = request.Category;
-        task.Status = request.Status;
-
-        await _taskRepository.UpdateAsync(task);
-
         return Ok(ToResponse(task));
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var task = await _taskRepository.GetByIdAsync(id, GetCurrentUserId());
-        if (task is null) return NotFound();
-
-        await _taskRepository.DeleteAsync(task);
-
+        var deleted = await _taskService.DeleteAsync(id, GetCurrentUserId());
+        if (!deleted) return NotFound();
         return NoContent();
     }
 
