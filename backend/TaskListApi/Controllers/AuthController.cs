@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using TaskListApi.Data.Repositories;
-using TaskListApi.Models;
 using TaskListApi.Services;
 using TaskListApi.DTOs;
 using System.Security.Claims;
@@ -14,64 +11,38 @@ namespace TaskListApi.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
-    private readonly ITokenService _tokenService;
-    private readonly IPasswordHasher<User> _passwordHasher;
+    private readonly IAuthService _authService;
 
-    public AuthController(
-        IUserRepository userRepository,
-        ITokenService tokenService,
-        IPasswordHasher<User> passwordHasher)
+    public AuthController(IAuthService authService)
     {
-        _userRepository = userRepository;
-        _tokenService = tokenService;
-        _passwordHasher = passwordHasher;
+        _authService = authService;
     }
 
-    [HttpPost("register")]
-    public async Task<ActionResult<AuthResponse>> Register(RegisterRequest request)
+   [HttpPost("register")]
+public async Task<ActionResult<AuthResponse>> Register(RegisterRequest request)
+{
+    var result = await _authService.RegisterAsync(request);
+
+    if (result is null)
     {
-        if (await _userRepository.ExistsAsync(request.Username, request.Email))
-        {
-            return Conflict("Username or email is already taken.");
-        }
-
-        var user = new User
-        {
-            Username = request.Username,
-            Email = request.Email
-        };
-
-        user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
-
-        await _userRepository.AddAsync(user);
-
-        var token = _tokenService.GenerateToken(user);
-
-        return Ok(new AuthResponse(token, user.Username, user.Email));
+        return Conflict("Username or email is already taken.");
     }
 
-    [HttpPost("login")]
-    public async Task<ActionResult<AuthResponse>> Login(LoginRequest request)
+    return Ok(result);
+}
+
+[HttpPost("login")]
+public async Task<ActionResult<AuthResponse>> Login(LoginRequest request)
+{
+    var result = await _authService.LoginAsync(request);
+
+    if (result is null)
     {
-        var user = await _userRepository.GetByUsernameAsync(request.Username);
-
-        if (user is null)
-        {
-            return Unauthorized();
-        }
-
-        var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash!, request.Password);
-
-        if (result == PasswordVerificationResult.Failed)
-        {
-            return Unauthorized();
-        }
-
-        var token = _tokenService.GenerateToken(user);
-
-        return Ok(new AuthResponse(token, user.Username, user.Email));
+        return Unauthorized();
     }
+
+    return Ok(result);
+}
 
     [Authorize]
     [HttpGet("profile")]
