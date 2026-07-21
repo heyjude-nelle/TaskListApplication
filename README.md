@@ -106,5 +106,4 @@ There are no default/seeded accounts. Open `http://localhost:4200`, click **Regi
 ## Future enhancements
 
 - SSO (e.g. Google/Microsoft OAuth) — schema is already SSO-ready (see above); would add a new backend challenge/callback endpoint issuing the same JWT, and a frontend callback route, without touching existing login/guard/interceptor logic.
-- A dedicated business logic/service layer between controllers and repositories (currently controllers call repositories directly).
 - Automated tests (backend controller/service tests, frontend component tests) — not part of this assessment's stated requirements, but a natural next step.
