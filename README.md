@@ -22,7 +22,7 @@ TaskListApplication/
 ### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- [Node.js](https://nodejs.org/) (v20+) and npm
+- [Node.js](https://nodejs.org/) v22.22.3+ (or v24.15.0+/v26+) and npm — Angular 22 requires this; the build fails on Node 20 or 21
 - [PostgreSQL](https://www.postgresql.org/download/) running locally on the default port (5432)
 
 ### 1. Database
