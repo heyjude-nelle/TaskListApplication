@@ -8,7 +8,8 @@ frontend/dist/
 frontend/.angular/
 
 # Environment / secrets
-**/appsettings.Development.json
+# Note: appsettings.Development.json is deliberately committed for this
+# assessment (see README) - not excluded here.
 **/appsettings.local.json
 *.env
 
