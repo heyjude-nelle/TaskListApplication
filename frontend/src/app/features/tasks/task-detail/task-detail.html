@@ -23,7 +23,7 @@
 
       <dl style="display: grid; grid-template-columns: 140px 1fr; row-gap: 0.5rem;">
         <dt class="muted">Status</dt>
-        <dd>{{ t.status }}</dd>
+        <dd>{{ t.status | statusLabel }}</dd>
 
         <dt class="muted">Priority</dt>
         <dd>{{ t.priority }}</dd>
