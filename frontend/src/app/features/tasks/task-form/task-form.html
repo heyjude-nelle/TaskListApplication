@@ -30,7 +30,7 @@
 
         <div class="form-field">
           <label for="dueDate">Due date</label>
-          <input id="dueDate" type="date" formControlName="dueDate" />
+          <input id="dueDate" type="date" formControlName="dueDate" [min]="minDueDate" />
         </div>
 
         <div class="form-field">
@@ -52,7 +52,7 @@
             <label for="status">Status</label>
             <select id="status" formControlName="status">
               @for (s of statuses; track s) {
-                <option [value]="s">{{ s }}</option>
+                <option [value]="s">{{ s | statusLabel }}</option>
               }
             </select>
           </div>

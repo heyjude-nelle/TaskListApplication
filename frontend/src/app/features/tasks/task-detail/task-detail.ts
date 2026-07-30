@@ -3,11 +3,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { TaskItem } from '../../../core/models/task.model';
 import { TaskService } from '../../../core/services/task.service';
+import { StatusLabelPipe } from '../../../core/pipes/status-label.pipe';
 
 @Component({
   selector: 'app-task-detail',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, StatusLabelPipe],
   templateUrl: './task-detail.html'
 })
 export class TaskDetail implements OnInit {

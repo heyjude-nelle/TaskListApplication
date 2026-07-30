@@ -3,11 +3,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TaskItemStatus, TaskPriority } from '../../../core/models/task.model';
 import { TaskService } from '../../../core/services/task.service';
+import { StatusLabelPipe } from '../../../core/pipes/status-label.pipe';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, StatusLabelPipe],
   templateUrl: './task-form.html'
 })
 export class TaskForm implements OnInit {
@@ -18,6 +19,13 @@ export class TaskForm implements OnInit {
 
   readonly priorities = Object.values(TaskPriority);
   readonly statuses = Object.values(TaskItemStatus);
+
+  readonly minDueDate = (() => {
+    const now = new Date();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${now.getFullYear()}-${month}-${day}`;
+  })();
 
   readonly taskId = signal<string | null>(null);
   readonly isEditMode = computed(() => this.taskId() !== null);

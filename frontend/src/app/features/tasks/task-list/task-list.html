@@ -31,7 +31,7 @@
               {{ task.title }}
             </a>
             <div class="muted">
-              {{ task.priority }} priority &middot; {{ task.status }}
+              {{ task.priority }} priority &middot; {{ task.status | statusLabel }}
               @if (task.category) { &middot; {{ task.category }} }
               @if (task.dueDate) { &middot; Due {{ task.dueDate | date: 'mediumDate' }} }
             </div>
