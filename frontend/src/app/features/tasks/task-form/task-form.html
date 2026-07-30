@@ -30,7 +30,7 @@
 
         <div class="form-field">
           <label for="dueDate">Due date</label>
-          <input id="dueDate" type="date" formControlName="dueDate" />
+          <input id="dueDate" type="date" formControlName="dueDate" [min]="minDueDate" />
         </div>
 
         <div class="form-field">

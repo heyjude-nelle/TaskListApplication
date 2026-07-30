@@ -20,6 +20,13 @@ export class TaskForm implements OnInit {
   readonly priorities = Object.values(TaskPriority);
   readonly statuses = Object.values(TaskItemStatus);
 
+  readonly minDueDate = (() => {
+    const now = new Date();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${now.getFullYear()}-${month}-${day}`;
+  })();
+
   readonly taskId = signal<string | null>(null);
   readonly isEditMode = computed(() => this.taskId() !== null);
   readonly loading = signal(false);
