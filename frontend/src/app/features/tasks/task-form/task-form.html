@@ -52,7 +52,7 @@
             <label for="status">Status</label>
             <select id="status" formControlName="status">
               @for (s of statuses; track s) {
-                <option [value]="s">{{ s }}</option>
+                <option [value]="s">{{ s | statusLabel }}</option>
               }
             </select>
           </div>

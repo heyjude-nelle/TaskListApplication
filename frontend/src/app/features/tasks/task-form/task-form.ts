@@ -3,11 +3,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TaskItemStatus, TaskPriority } from '../../../core/models/task.model';
 import { TaskService } from '../../../core/services/task.service';
+import { StatusLabelPipe } from '../../../core/pipes/status-label.pipe';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, StatusLabelPipe],
   templateUrl: './task-form.html'
 })
 export class TaskForm implements OnInit {
