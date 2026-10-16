@@ -1,6 +1,6 @@
 # Task List Application
 
-A full-stack task management app built for the Full Stack Developer technical assessment: Angular frontend, ASP.NET Core Web API backend, PostgreSQL database. Users register/log in, then create, view, edit, and delete their own tasks (title, description, due date, priority, category, status).
+A full-stack task management app: Angular frontend, ASP.NET Core Web API backend, PostgreSQL database. Users register/log in, then create, view, edit, and delete their own tasks (title, description, due date, priority, category, status).
 
 ## Tech stack
 
@@ -42,9 +42,14 @@ dotnet ef database update
 
 Alternatively, `database/schema.sql` contains the equivalent SQL and can be run directly against an empty database with `psql`.
 
-> **Note on `appsettings.Development.json`:** the connection string and JWT signing key are committed as-is for this assessment, so the app runs immediately without extra setup. This is a deliberate convenience for reviewers, not a production pattern — in a real deployment these would come from user secrets / environment variables / a secrets manager, never source control.
+`appsettings.Development.json` is gitignored since it holds the local connection string and JWT signing key. Copy the example file to create it:
 
-If your local Postgres uses a different username/password than `postgres` / `tasklistapplication`, update the `ConnectionStrings:DefaultConnection` value in `backend/TaskListApi/appsettings.Development.json` before running the migration.
+```
+cd backend/TaskListApi
+cp appsettings.Development.example.json appsettings.Development.json
+```
+
+Update `ConnectionStrings:DefaultConnection` if your local Postgres uses a different username/password than `postgres` / `tasklistapplication`, and replace `Jwt:Key` with your own random string (at least 32 characters). In a real deployment these values would come from user secrets / environment variables / a secrets manager, never source control.
 
 ### 2. Backend
 
@@ -76,12 +81,12 @@ Why JWT: the backend is a stateless REST API consumed by a separate Angular SPA,
 Flow:
 
 - `POST /api/auth/register` and `POST /api/auth/login` return a signed JWT plus the user's basic info.
-- The frontend stores the token in `localStorage` and an HTTP interceptor (`authInterceptor`) attaches it as `Authorization: Bearer <token>` on every outgoing API request.
+- The frontend stores the token in `localStorage` and an HTTP interceptor (`authInterceptor`) attaches it as `Authorization: Bearer <token>` on every outgoing API request. `localStorage` is readable by any script on the page, so it's vulnerable to XSS-based token theft; in production this would be an httpOnly, secure cookie instead, which JavaScript can't access at all.
 - All task endpoints are decorated with `[Authorize]` — a request without a valid token is rejected with `401`.
 - A functional Angular route guard (`authGuard`) blocks navigation to any task route unless a token is present, redirecting to `/login` otherwise. The same interceptor also catches a `401` response (e.g. an expired token) and redirects to `/login`.
 - "Logout" simply clears the stored token client-side — since JWTs are stateless, there's no server-side session to invalidate.
 
-SSO was not implemented in this submission, but the schema was designed to support it — see below.
+SSO was not implemented in this version, but the schema was designed to support it — see below.
 
 ## Database schema
 
@@ -106,4 +111,4 @@ There are no default/seeded accounts. Open `http://localhost:4200`, click **Regi
 ## Future enhancements
 
 - SSO (e.g. Google/Microsoft OAuth) — schema is already SSO-ready (see above); would add a new backend challenge/callback endpoint issuing the same JWT, and a frontend callback route, without touching existing login/guard/interceptor logic.
-- Automated tests (backend controller/service tests, frontend component tests) — not part of this assessment's stated requirements, but a natural next step.
+- Automated tests (backend controller/service tests, frontend component tests) — a natural next step.
