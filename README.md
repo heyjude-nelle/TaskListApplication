@@ -97,7 +97,7 @@ Two tables:
 
 **How SSO-vs-traditional users would be distinguished:** `PasswordHash` is nullable and `AuthProvider`/`ProviderUserId` already exist specifically so an SSO user (e.g. `AuthProvider = "Google"`, `ProviderUserId = <their Google subject id>`) could be stored with no password at all, alongside traditional users (`AuthProvider = "Local"`, a real `PasswordHash`, no `ProviderUserId`). No schema change would be needed to add SSO later.
 
-**Stored functions** (Postgres functions called from the backend via EF Core's `FromSqlInterpolated`, satisfying the requirement to fetch data via a stored procedure/function):
+**Stored functions** (Postgres functions called from the backend via EF Core's `FromSqlInterpolated`, used to fetch task data via a stored procedure/function):
 
 - `get_tasks_by_user(p_user_id uuid)` — returns all tasks for a user, newest first.
 - `get_task_by_id(p_id uuid, p_user_id uuid)` — returns a single task, scoped to its owner.
