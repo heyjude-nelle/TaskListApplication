@@ -1,6 +1,6 @@
 # Task List Application
 
-A full-stack task management app: Angular frontend, ASP.NET Core Web API backend, PostgreSQL database. Users register/log in, then create, view, edit, and delete their own tasks (title, description, due date, priority, category, status).
+A full-stack task manager where users register, log in with JWT, and manage their own tasks — title, due date, priority, category, status — backed by Angular, ASP.NET Core, and PostgreSQL.
 
 ![Demo: registering, creating a task, and updating its status](docs/demo.gif)
 
