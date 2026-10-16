@@ -1,12 +1,12 @@
 :root {
-  --cbre-green: #003f2d;
-  --cbre-green-dark: #012a2d;
-  --cbre-text: #435254;
-  --cbre-text-muted: #778f9c;
-  --cbre-bg: #f4f6f6;
-  --cbre-border: #cad1d3;
-  --cbre-danger: #b3261e;
-  --cbre-danger-dark: #8f1e18;
+  --brand-green: #003f2d;
+  --brand-green-dark: #012a2d;
+  --brand-text: #435254;
+  --brand-text-muted: #778f9c;
+  --brand-bg: #f4f6f6;
+  --brand-border: #cad1d3;
+  --brand-danger: #b3261e;
+  --brand-danger-dark: #8f1e18;
 }
 
 * {
@@ -16,8 +16,8 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--cbre-bg);
-  color: var(--cbre-text);
+  background: var(--brand-bg);
+  color: var(--brand-text);
 }
 
 .page {
@@ -28,7 +28,7 @@ body {
 
 .card {
   background: #fff;
-  border: 1px solid var(--cbre-border);
+  border: 1px solid var(--brand-border);
   border-radius: 8px;
   padding: 1.5rem;
 }
@@ -43,35 +43,35 @@ body {
 .form-field label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--cbre-green-dark);
+  color: var(--brand-green-dark);
 }
 
 .form-field input,
 .form-field textarea,
 .form-field select {
   padding: 0.5rem 0.65rem;
-  border: 1px solid var(--cbre-border);
+  border: 1px solid var(--brand-border);
   border-radius: 6px;
   font-size: 0.95rem;
   font-family: inherit;
-  color: var(--cbre-text);
+  color: var(--brand-text);
 }
 
 .form-field input:focus,
 .form-field textarea:focus,
 .form-field select:focus {
-  outline: 2px solid var(--cbre-green);
+  outline: 2px solid var(--brand-green);
   outline-offset: 1px;
 }
 
 .field-error {
-  color: var(--cbre-danger);
+  color: var(--brand-danger);
   font-size: 0.8rem;
 }
 
 .form-error {
   background: #fbeceb;
-  color: var(--cbre-danger-dark);
+  color: var(--brand-danger-dark);
   border-radius: 6px;
   padding: 0.6rem 0.8rem;
   margin-bottom: 1rem;
@@ -96,37 +96,37 @@ button {
 }
 
 .btn-primary {
-  background: var(--cbre-green);
+  background: var(--brand-green);
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: var(--cbre-green-dark);
+  background: var(--brand-green-dark);
   color: #fff;
 }
 
 .btn-primary:disabled {
-  background: var(--cbre-text-muted);
+  background: var(--brand-text-muted);
   cursor: not-allowed;
 }
 
 .btn-secondary {
-  background: var(--cbre-bg);
-  color: var(--cbre-green-dark);
-  border: 1px solid var(--cbre-border);
+  background: var(--brand-bg);
+  color: var(--brand-green-dark);
+  border: 1px solid var(--brand-border);
 }
 
 .btn-secondary:hover {
-  background: var(--cbre-border);
+  background: var(--brand-border);
 }
 
 .btn-danger {
-  background: var(--cbre-danger);
+  background: var(--brand-danger);
   color: #fff;
 }
 
 .btn-danger:hover {
-  background: var(--cbre-danger-dark);
+  background: var(--brand-danger-dark);
 }
 
 .topbar {
@@ -134,8 +134,8 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background: var(--cbre-green);
-  border-bottom: 1px solid var(--cbre-green-dark);
+  background: var(--brand-green);
+  border-bottom: 1px solid var(--brand-green-dark);
 }
 
 .topbar .brand {
@@ -148,14 +148,14 @@ button {
 }
 
 a {
-  color: var(--cbre-green);
+  color: var(--brand-green);
 }
 
 a:hover {
-  color: var(--cbre-green-dark);
+  color: var(--brand-green-dark);
 }
 
 .muted {
-  color: var(--cbre-text-muted);
+  color: var(--brand-text-muted);
   font-size: 0.85rem;
 }
