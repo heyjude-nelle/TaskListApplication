@@ -15,4 +15,5 @@ frontend/.angular/
 # Editor
 .vs/
 .vscode/
+.claude/
 *.user

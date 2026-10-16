@@ -2,6 +2,8 @@
 
 A full-stack task management app: Angular frontend, ASP.NET Core Web API backend, PostgreSQL database. Users register/log in, then create, view, edit, and delete their own tasks (title, description, due date, priority, category, status).
 
+![Demo: registering, creating a task, and updating its status](docs/demo.gif)
+
 ## Tech stack
 
 - **Frontend:** Angular 22 (standalone components, reactive forms, Angular Router)
